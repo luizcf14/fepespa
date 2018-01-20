@@ -35,7 +35,7 @@ and open the template in the editor.
                 echo $u['carteirinha'];
                 echo '</td>';
                 echo '<td>';
-                echo '<button type="button" href="/"> Cancelar Pagamento</button>';
+                echo '<a type="button" href="/carterinha/'.$u['ID'].'/0"> Cancelar Pagamento</a>';
                 echo '</td>';
                 echo '</tr>';
             }
@@ -66,7 +66,7 @@ and open the template in the editor.
             echo $u['carteirinha'];
             echo '</td>';
             echo '<td>';
-            echo '<button type="button"> Confirmar Pagamento</button>';
+           echo '<a type="button" href="/carterinha/'.$u['ID'].'/1"> Confirmar Pagamento</a>';
             echo '</td>';
             echo '</tr>';
         }

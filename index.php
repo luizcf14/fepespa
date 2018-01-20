@@ -4,4 +4,4 @@ $request = $_SERVER['REQUEST_URI'];
 $router = new Router($request);
 
 $router->get('/', 'View/crudUsuario');
-$router->get('/carterinha', 'Controller/usuarioController');
+$router->get('carterinha', 'Event/carterinha');

@@ -18,7 +18,8 @@ class crudUsuario{
     }
     
     function setPagamento($id,$status = 0){
-        $query = "UPDATE $this->dbname.$this->table SET pagamento = $status WHERE id = '$id'";
+        $query = "UPDATE $this->dbname.$this->table SET carteirinha = '$status' WHERE id = '$id'";
+       // var_dump($query);
         $result = mysqli_query($this->connection,$query);
         return $result;
     }
