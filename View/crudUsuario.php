@@ -26,10 +26,16 @@ and open the template in the editor.
                 echo $u['user_login'];
                 echo '</td>';
                 echo '<td>';
-                echo $u['user_registered'];
+                echo $u['data_filiacao'];
                 echo '</td>';
                 echo '<td>';
                 echo $u['user_email'];
+                echo '</td>';
+                echo '<td>';
+                echo $u['carteirinha'];
+                echo '</td>';
+                echo '<td>';
+                echo '<button type="button" href="/"> Cancelar Pagamento</button>';
                 echo '</td>';
                 echo '</tr>';
             }
@@ -38,7 +44,6 @@ and open the template in the editor.
             echo '<b>Sem Usuarios</b>';
             echo '</br>';
         }
-
 
         $usuarios = $usuariosModel->getAllUsersNOTPag();
         echo '<h1>Users CRUD - Usuarios Pendentes</h1>';
@@ -52,10 +57,16 @@ and open the template in the editor.
             echo $u['user_login'];
             echo '</td>';
             echo '<td>';
-            echo $u['user_registered'];
+            echo $u['data_filiacao'];
             echo '</td>';
             echo '<td>';
             echo $u['user_email'];
+            echo '</td>';
+            echo '<td>';
+            echo $u['carteirinha'];
+            echo '</td>';
+            echo '<td>';
+            echo '<button type="button"> Confirmar Pagamento</button>';
             echo '</td>';
             echo '</tr>';
         }
