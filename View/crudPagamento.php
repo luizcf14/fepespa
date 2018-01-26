@@ -35,8 +35,8 @@
                         <td>$data_pagamento</td>
                         <td>$valor_pago</td>
                         <td>
-                        <a class='btn btn-mini btn-danger mrg-center' onclick='cancelarPagamento($idPag, $idUsuario);'>
-                            <i class='icon-trash icon-white'></i>
+                        <a class='btn btn-mini btn-danger mrg-center' onclick='cancelarPagamentoUsuario ($idPag, $idUsuario);'>
+                            <i class='glyphicon glyphicon-trash glyphicon-white'></i>
                     </tr>
                 ";
         }

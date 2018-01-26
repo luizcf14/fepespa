@@ -60,16 +60,20 @@
 
                 <div class='span2'>
                         <div class='row-fluid'>
-                            <input id='usuario_pagamentos' class='btn btn-mini btn-success span12' type='button' name='usuario_pagamentos' value='Pagamentos' onclick='pagamentosUsario();' />
+                            <input id='usuario_pagamentos' class='btn btn-mini btn-success span12' type='button' name='usuario_pagamentos' value='Pagamentos' onclick='pagamentosUsuario();' />
                         </div>
                 </div>
-
                 ";
 				
-	$html .= "</div'></div'></div'></div'>";
+	$html .= "			</div'>
+				</div'>
+			</div'>
+		</div'>
+
+		<div id='tabela_pagamentos_usuario' > </div>
+		";
 	echo $html;
 	unset($html);
-	die();
 	} else {
 		echo '<b>Sem Usuarios</b>';
 		echo '</br>';

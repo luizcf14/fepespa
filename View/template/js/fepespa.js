@@ -16,7 +16,7 @@ $(document).ready(function() {
 //
 });
 
-function pagamentosUsario() {
+function pagamentosUsuario() {
 
     if ($('input:radio[id=usuarioId]').is(':checked')) {
         id_usuario_selecionado = $('input:radio[id=usuarioId]:checked').val();
@@ -27,28 +27,41 @@ function pagamentosUsario() {
                 function(data) {
 		html = "";
 		if (data) {
-                    if (data == 0)
-                        alert("Nao há pagamentos para este usuário");                        
-                    console.log(data);
-			for (var i = 0; i < data.length; i++) {
-				html += "<tr name='table-color'  class='dayhead '>";
-				html += "<th align='center'>" + data[i]['status'] + "  </th>";
-				html += "<th align='center'>" + data[i]['data'] + "</th>";
-				html += "<th align='center'> " + data[i]['nome'] + " </th>";
-				html += "<th align='center'>" + data[i]['dose'] + "  </th>";
-				html += "<th align='center'></th>";
-				html += "</tr>";
-			}
+			html = data;
+			$("#tabela_pagamentos_usuario").html(html);
 		} else {
 			html = " ";
+			alert("Nao há pagamentos para este usuário");                        
 		}
-
-		$("#tbody-listaimunoterapia-cliente").html(html);
-	}, "json"
-		);
+	}, "json");
 
     } else {
         alert('Escolha um registro !');
     }
+
+}
+
+function cancelarPagamentoUsuario (idPag, idUsuario) {
+
+	if(idPag) {
+		$.post(
+			'/pagamento/'+ id_usuario_selecionado + '/0',
+			{},
+					function(data) {
+			html = "";
+			if (data) {
+				html = data;
+				$("#tabela_pagamentos_usuario").html(html);
+			} else {
+				html = " ";
+				alert("Nao há pagamentos para este usuário");                        
+			}
+		}, "json");
+
+	} else {
+		console.log('Id Usuario ou Id pagamento Vazio.')
+	}
+
+
 
 }
