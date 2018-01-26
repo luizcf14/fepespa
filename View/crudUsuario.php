@@ -5,81 +5,59 @@
 	echo '<h1>Users CRUD - Usuarios Confirmados</h1>';
 	if (sizeof($usuarios) >= 1) {
 			$html = "
-			<table class = \"table table-striped\">
+			<table class = 'table table-striped table-hover'>
 				<thead>
 					<tr>
 						<th>#</th>
 						<th>Nome</th>
 						<th>Email</th>
-						<th>Cart.</th>
+						<th>Filiação</th>
 						<th>Pagamentos</th>
 						<th>Cat.</th>						
 					</tr>
 				</thead>
-				<tbody>';
+				<tbody>";
+                        $i = 1;
 		foreach ($usuarios as &$u) {
-			$html .= "
-			<table class = \"table table-striped\">
-				<thead>
-					<tr>
-						<th>#</th>
-						<th>Nome</th>
-						<th>Email</th>
-						<th>Cart.</th>
-						<th>Pagamentos</th>
-						<th>Cat.</th>						
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<th scope =\"row\">1</th>
-						<td>Mark</td>
-						<td>Otto</td>
-						<td>@mdo</td>
-						</tr>
-					<tr>
-						<th scope = \"row\">2</th>
-						<td>Jacob</td>
-						<td>Thornton</td>
-						<td>@fat</td>
-					</tr>
-					<tr>
-						<th scope = \"row\">3</th>
-						<td>Larry</td>
-						<td>the Bird</td>
-						<td>@twitter</td>
-					</tr>
-				</tbody>
-		</table>
-	';
-
-		echo '<tr>';
-			echo '<td>';
-			echo $u['display_name'];
-			echo '</td>';
-			echo '<td>';
-			echo $u['user_login'];
-			echo '</td>';
-			echo '<td>';
-			echo $u['data_filiacao'];
-			echo '</td>';
-			echo '<td>';
-			echo $u['user_email'];
-			echo '</td>';
-			echo '<td>';
-			echo $u['carteirinha'];
-			echo '</td>';
-			echo '<td>';
-			echo '<a type="button" href="/carterinha/'.$u['ID'].'/0"> Gerar Carteirinha</a>';
-			echo '<a type="button" href="/pagamento/'.$u['ID'].'/0"> Pagamentos</a>';
-			echo '</td>';
-			echo '</tr>';
+                    $display_name = ucwords(strtolower($u['display_name']));
+                    $email = $u['user_email'];
+                    $data_filiacao = $u['data_filiacao'];
+                    $carteirinha = $u['carteirinha'];
+                    $id_usuario = $u['ID'];
+                        $html .= "
+                                    <tr>
+                                        <th scope ='row'>
+                                            <input type='radio' id='usuarioId' name='transf_opcao' class='default-checkbox' value='$id_usuario'>
+                                    </th>
+                                        <td>$display_name</td>
+                                        <td>$email</td>
+                                        <td>$data_filiacao</td>
+                                        <td>$carteirinha</td>
+                                        <td>$carteirinha</td>
+                                    </tr>
+                                ";
+                        
+                        $i++;
+//			echo '<td>';
+//			echo '<a type="button" href="/carterinha/'.$u['ID'].'/0"> Gerar Carteirinha</a>';
+//			echo '<a type="button" href="/pagamento/'.$u['ID'].'/0"> Pagamentos</a>';
+//			echo '</td>';
+//			echo '</tr>';
 		}
-		echo '</table>';
+
+                $html .= " </tbody>
+                        </table>
+
+                <div class='span2'>
+                        <div class='row-fluid'>
+                            <input id='usuario_pagamentos' class='btn btn-mini btn-success span12' type='button' name='usuario_pagamentos' value='Pagamentos' onclick='pagamentosUsario();' />
+                        </div>
+                </div>
+
+                ";
+                echo $html;
+                unset($html);
 	} else {
-		
-		
-		
 		echo '<b>Sem Usuarios</b>';
 		echo '</br>';
 	}

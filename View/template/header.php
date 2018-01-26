@@ -5,10 +5,11 @@
         <!--<link rel="shortcut icon" href="template/img/favicon.png" type="image/x-icon" />-->
         <title>FEPESPA</title>
 
-        <link type="text/css" rel="stylesheet" href="template/css/bootstrap.css" />
+        <link type="text/css" rel="stylesheet" href="View/template/css/bootstrap.css" />
 
-        <script src="template/js/jquery.js"></script>
-        <script src="template/js/bootstrap.js"></script>
+        <script src="View/template/js/jquery.js"></script>
+        <script src="View/template/js/bootstrap.js"></script>
+        <script src="View/template/js/fepespa.js"></script>
     </head>
 
     <body>
