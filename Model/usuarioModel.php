@@ -1,6 +1,6 @@
 <?php
 include('./Controller/mysqlConnection.php');
-class crudUsuario{
+class usuarioModel{
     private $connection = null;
     private $table = 'wp_users';
     private $dbname = 'fepes861_fepespa';
@@ -43,8 +43,9 @@ class crudUsuario{
         return  $result->fetch_all(MYSQLI_ASSOC);
     }
     function getUsuario($id){
-        $query = "SELECT * FROM $this->table WHERE ID = $id";
-        $result = $this->connection->query($query);
-        return $result;
+        $query = "SELECT * FROM $this->dbname.$this->table WHERE ID = $id";
+        $result = mysqli_query($this->connection,$query);
+        //var_dump($query);die();
+        return $result->fetch_all(MYSQLI_ASSOC);
     }
 }

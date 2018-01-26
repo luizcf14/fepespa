@@ -6,13 +6,18 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <meta charset="UTF-8">
-        <title></title>
+        <meta charset="UTF-8" >
+        <title>FEPESPA</title>
+        <link type="text/css" rel="stylesheet" href="View/css/bootstrap.css"/>
+
+        <script src="View/js/bootstrap.js"> </script>
+        <script src="View/js/jquery.js"> </script>
+        
     </head>
     <body>
         <?php
         include('./Model/usuarioModel.php');
-        $usuariosModel = new crudUsuario();
+        $usuariosModel = new usuarioModel();
         $usuarios = $usuariosModel->getAllUsersPag();
         echo '<h1>Users CRUD - Usuarios Confirmados</h1>';
         if (sizeof($usuarios) >= 1) {
@@ -35,7 +40,8 @@ and open the template in the editor.
                 echo $u['carteirinha'];
                 echo '</td>';
                 echo '<td>';
-                echo '<a type="button" href="/carterinha/'.$u['ID'].'/0"> Cancelar Pagamento</a>';
+                echo '<a type="button" href="/carterinha/'.$u['ID'].'/0"> Gerar Carteirinha</a>';
+                echo '<a type="button" href="/pagamento/'.$u['ID'].'/0"> Pagamentos</a>';
                 echo '</td>';
                 echo '</tr>';
             }
