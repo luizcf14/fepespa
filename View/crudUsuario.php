@@ -3,9 +3,18 @@
 	$usuariosModel = new usuarioModel();
 	$usuarios = $usuariosModel->getAllUsersPag();
 	echo '<h1>Users CRUD - Usuarios Confirmados</h1>';
+	$html = "";
+	$html .= "<div class'container'>
+			<div class='row-fluid'>
+				<div class='span2'>bruno</div>
+				<div class='span2'>fffff</div>
+				<div class='span2'>
+			
+			";
+	
 	if (sizeof($usuarios) >= 1) {
-			$html = "
-			<table class = 'table table-striped table-hover'>
+			$html .= "
+			<table class = 'table table-striped table-hover table-sm'>
 				<thead>
 					<tr>
 						<th>#</th>
@@ -19,11 +28,12 @@
 				<tbody>";
                         $i = 1;
 		foreach ($usuarios as &$u) {
-                    $display_name = ucwords(strtolower($u['display_name']));
-                    $email = $u['user_email'];
-                    $data_filiacao = $u['data_filiacao'];
-                    $carteirinha = $u['carteirinha'];
-                    $id_usuario = $u['ID'];
+
+		$display_name = ucwords(strtolower($u['display_name']));
+		$email = $u['user_email'];
+		$data_filiacao = $u['data_filiacao'];
+		$carteirinha = $u['carteirinha'];
+		$id_usuario = $u['ID'];
                         $html .= "
                                     <tr>
                                         <th scope ='row'>
@@ -55,8 +65,11 @@
                 </div>
 
                 ";
-                echo $html;
-                unset($html);
+				
+	$html .= "</div'></div'></div'></div'>";
+	echo $html;
+	unset($html);
+	die();
 	} else {
 		echo '<b>Sem Usuarios</b>';
 		echo '</br>';
