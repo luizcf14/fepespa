@@ -19,10 +19,10 @@ $(document).ready(function() {
 function pagamentosUsuario() {
 
     if ($('input:radio[id=usuarioId]').is(':checked')) {
-        id_usuario_selecionado = $('input:radio[id=usuarioId]:checked').val();
-    
+	id_usuario_selecionado = $('input:radio[id=usuarioId]:checked').val();
+
 	$.post(
-		'/pagamento/'+ id_usuario_selecionado + '/0',
+		'/pagamento/'+ id_usuario_selecionado,
 		{},
                 function(data) {
 		html = "";
@@ -43,25 +43,35 @@ function pagamentosUsuario() {
 
 function cancelarPagamentoUsuario (idPag, idUsuario) {
 
-	if(idPag) {
+	var id_usuario = idUsuario;
+	var id_pag = idPag;
+	if(idPag != undefined || idUsuario != undefined) {
 		$.post(
-			'/pagamento/'+ id_usuario_selecionado + '/0',
+			'/pagamentoCancelar/'+ id_pag + '/' + id_usuario,
 			{},
-					function(data) {
+			function(data) {
 			html = "";
 			if (data) {
-				html = data;
-				$("#tabela_pagamentos_usuario").html(html);
+				alert("Registro foi Deletado com sucesso.");
+				$.post(
+					'/pagamento/'+ id_usuario,
+					{},
+					function(res) {
+					html = "";
+					if (res) {
+						html = res;
+						$("#tabela_pagamentos_usuario").html(html);
+					} else {
+						html = " ";
+						$("#tabela_pagamentos_usuario").html(html);                        
+					}
+				}, "json");
 			} else {
 				html = " ";
 				alert("Nao há pagamentos para este usuário");                        
 			}
 		}, "json");
-
 	} else {
 		console.log('Id Usuario ou Id pagamento Vazio.')
 	}
-
-
-
 }

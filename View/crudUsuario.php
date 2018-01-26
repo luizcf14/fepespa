@@ -6,8 +6,6 @@
 	$html = "";
 	$html .= "<div class'container'>
 			<div class='row-fluid'>
-				<div class='span2'>bruno</div>
-				<div class='span2'>fffff</div>
 				<div class='span2'>
 			
 			";
@@ -65,9 +63,7 @@
                 </div>
                 ";
 				
-	$html .= "			</div'>
-				</div'>
-			</div'>
+	$html .= "	</div'>
 		</div'>
 
 		<div id='tabela_pagamentos_usuario' > </div>

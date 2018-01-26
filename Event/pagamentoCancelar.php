@@ -4,5 +4,7 @@ $pagID= $args[0];
 $usrID= $args[1];
 
 $pagObj = new pagamentoModel($usrID);
-$pagObj->cancelarPagamento($pagID);
-header("location:/pagamento/$usrID");
+$bool = $pagObj->cancelarPagamento($pagID);
+
+die(json_encode($bool));
+//header("location:/pagamento/$usrID");
