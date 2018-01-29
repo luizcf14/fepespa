@@ -8,6 +8,10 @@
     $pagamentosUsuario = $pagObj->getPagamentobyUser($userID);
 
     if(!empty($pagamentosUsuario)) {
+        
+        $usuario_pagamento[0] = $pagamentosUsuario;
+        $usuario_pagamento[1] = $user_pagObjInstance['display_name'];
+        
         $html = "
         <table class = 'table table-striped table-hover'>
                 <thead>
@@ -42,11 +46,8 @@
                 ";
 //                    echo $html;
 
-        if(is_array($html)){
-            die(json_encode(arrayUtf8Enconde($html)));
-        }else{
-            die(json_encode($html));
-        }
-    } else {
+        utils::saidaJson($usuario_pagamento);
+
+        } else {
         die(json_encode(0));
     }

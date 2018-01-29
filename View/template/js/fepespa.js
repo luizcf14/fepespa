@@ -25,17 +25,37 @@ function pagamentosUsuario() {
 		'/pagamento/'+ id_usuario_selecionado,
 		{},
                 function(data) {
-		html = "";
-		if (data) {
-			html = data;
-			$("#tabela_pagamentos_usuario").html(html);
-			abrir_modal("#modal_pagamentos");
+                    console.log(data);
+//                    response = JSON.parse(data);
+                    html = "";
+                    if (data) {
+                        html = "
+                        <table class = 'table table-striped table-hover'>
+                                <thead>
+                                        <tr>
+                                                <th>Data Pagamento</th>
+                                                <th>Valor Pago</th>
+                                                <th>Opções</th>
+                                        </tr>
+                                </thead>
+                                <tbody>";
 
-		} else {
-			html = " ";
-			alert("Nao há pagamentos para este usuário");                        
-		}
-	}, "json");
+                            nomeUsuario = data[1];
+                            html = data;
+                            result = data[0];
+                            for (var i = 0; i < result.length; i++) {
+                                
+                            }
+
+
+                            $("#tabela_pagamentos_usuario").html(html);
+                            abrir_modal("modal_pagamentos");
+
+                    } else {
+                            html = " ";
+                            alert("Nao há pagamentos para este usuário");                        
+                    }
+                }, "json");
 
     } else {
         alert('Escolha um registro !'); return;
@@ -79,7 +99,6 @@ function cancelarPagamentoUsuario (idPag, idUsuario) {
 }
 
 function abrir_modal(idModal) {
-	alert('haick');
 	var obj;
 	if (typeof idModal === 'string') {
 		obj = $("#" + idModal);

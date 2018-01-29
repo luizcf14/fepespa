@@ -1,6 +1,7 @@
 <?php
 //include 'View/template/header.php';
 include 'Router.php';
+Require_once 'controller/utils.php';
 $request = $_SERVER['REQUEST_URI'];
 $router = new Router($request);
 
