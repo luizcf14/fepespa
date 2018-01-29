@@ -29,6 +29,8 @@ function pagamentosUsuario() {
 		if (data) {
 			html = data;
 			$("#tabela_pagamentos_usuario").html(html);
+			abrir_modal("#modal_pagamentos");
+
 		} else {
 			html = " ";
 			alert("Nao há pagamentos para este usuário");                        
@@ -36,7 +38,7 @@ function pagamentosUsuario() {
 	}, "json");
 
     } else {
-        alert('Escolha um registro !');
+        alert('Escolha um registro !'); return;
     }
 
 }
@@ -74,4 +76,21 @@ function cancelarPagamentoUsuario (idPag, idUsuario) {
 	} else {
 		console.log('Id Usuario ou Id pagamento Vazio.')
 	}
+}
+
+function abrir_modal(idModal) {
+	alert('haick');
+	var obj;
+	if (typeof idModal === 'string') {
+		obj = $("#" + idModal);
+	} else if (idModal && idModal.jquery) {
+		obj = idModal;
+	} else
+		return;
+        
+	obj.modal({
+		"backdrop": "static",
+		"keyboard": true,
+		"show": true
+	});
 }

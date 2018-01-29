@@ -46,7 +46,7 @@
                                 ";
                         
                         $i++;
-//			echo '<td>';
+//			echo '<td>
 //			echo '<a type="button" href="/carterinha/'.$u['ID'].'/0"> Gerar Carteirinha</a>';
 //			echo '<a type="button" href="/pagamento/'.$u['ID'].'/0"> Pagamentos</a>';
 //			echo '</td>';
@@ -61,13 +61,49 @@
                             <input id='usuario_pagamentos' class='btn btn-mini btn-success span12' type='button' name='usuario_pagamentos' value='Pagamentos' onclick='pagamentosUsuario();' />
                         </div>
                 </div>
-                ";
+
+<!-- Button trigger modal -->
+<button id='usuario_pagamentos'  type='button' class='btn btn-primary' data-toggle='modal' data-target='#modal_pagamentos' onclick='pagamentosUsuario();' > Launch demo modal</button>
+
+";
 				
 	$html .= "	</div'>
 		</div'>
-
-		<div id='tabela_pagamentos_usuario' > </div>
 		";
+	
+	?>
+
+	<!-- Modal -->
+	<div class='modal fade' id='modal_pagamentos' tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true'>
+		<div class='modal-dialog modal-lg' role='document'>
+			<div class='modal-content'>
+				<div class='modal-header'>
+					<h5 class='modal-title' id='tabela_pagamentos_nome_usuario'>Bruno Haick</h5>
+					<button type='button' class='close' data-dismiss='modal' aria-label='Close'>
+						<span aria-hidden='true'>&times;</span>
+					</button>
+				</div>
+				<div class='modal-body'>
+					<div id='tabela_pagamentos_adicionar' >
+						Data do Pagamento: <input type="text" id='' name="dataPag"/>
+						Valor: <input type="text" id='' name="valorPag"/>
+						<button type='button' class='btn btn-primary'>Adicionar</button>
+						<!--<input type="submit" value="Adicionar" />-->
+					</div>
+					<hr>
+					<div id='tabela_pagamentos_usuario' > </div>
+				</div>
+				<div class='modal-footer'>
+					<button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button>
+					<button type='button' class='btn btn-primary'>Save changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+<?php
+	
 	echo $html;
 	unset($html);
 	} else {

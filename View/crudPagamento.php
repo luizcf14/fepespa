@@ -19,11 +19,6 @@
                 </thead>
                 <tbody>";
 
-    //'<form action="/inserirPagamento/' . $userID . '" method="POST">'
-    // . '<p> Data do Pagamento: <input type="text" name="dataPag"/></p>'
-    // . '<p> Valor: <input type="text" name="valorPag"/></p>'
-    // . '<p><input type="submit" value="Adicionar" /> </p>'
-    // . '</form>';
         foreach ($pagamentosUsuario as $p) {
 
             $data_pagamento = $p['data'];
