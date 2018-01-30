@@ -9,42 +9,17 @@
 
     if(!empty($pagamentosUsuario)) {
         
-        $usuario_pagamento[0] = $pagamentosUsuario;
+//        $usuario_pagamento[0] = $pagamentosUsuario;
         $usuario_pagamento[1] = $user_pagObjInstance['display_name'];
         
-        $html = "
-        <table class = 'table table-striped table-hover'>
-                <thead>
-                        <tr>
-                                <th>Data Pagamento</th>
-                                <th>Valor Pago</th>
-                                <th>Opções</th>
-                        </tr>
-                </thead>
-                <tbody>";
-
         foreach ($pagamentosUsuario as $p) {
 
-            $data_pagamento = $p['data'];
-            $valor_pago = $p['valor'];
-            $idPag = $p['id'];
-            $idUsuario = $user_pagObjInstance['ID'];
-            $html .= "
-                    <tr>
-                        <td>$data_pagamento</td>
-                        <td>$valor_pago</td>
-                        <td>
-                        <a class='btn btn-mini btn-danger mrg-center' onclick='cancelarPagamentoUsuario ($idPag, $idUsuario);'>
-                            <span class='glyphicon glyphicon-trash'> Deletar</span>
-                        </a>
-                    </tr>
-                ";
+            $a['data'] = utils::converteData($p['data']);
+            $a['valor'] = utils::formata_dinheiro($p['valor']);
+            $a['id'] = $p['id'];
+            
+            $usuario_pagamento[0][] = $a;
         }
-
-        $html .= " </tbody>
-                </table>
-                ";
-//                    echo $html;
 
         utils::saidaJson($usuario_pagamento);
 

@@ -29,31 +29,43 @@ function pagamentosUsuario() {
 //                    response = JSON.parse(data);
                     html = "";
                     if (data) {
-                        html = "
-                        <table class = 'table table-striped table-hover'>
-                                <thead>
-                                        <tr>
-                                                <th>Data Pagamento</th>
-                                                <th>Valor Pago</th>
-                                                <th>Opções</th>
-                                        </tr>
-                                </thead>
-                                <tbody>";
+                        html = "<table class = 'table table-striped table-hover'> " +
+                                "<thead>" +
+                                        "<tr>" +
+                                                "<th>Data Pagamento</th>" +
+                                                "<th>Valor Pago</th>" +
+                                                "<th>Opções</th>" +
+                                        "</tr>" +
+                                "</thead>" +
+                                "<tbody>";
 
-                            nomeUsuario = data[1];
-                            html = data;
-                            result = data[0];
-                            for (var i = 0; i < result.length; i++) {
-                                
-                            }
+                        nomeUsuario = data[1];
+                        result = data[0];
+                        for (var i = 0; i < result.length; i++) {
+                            data_pagamento = result[i]['data'];
+                            valor_pago = result[i]['valor'];
+                            idPag = result[i]['id'];
+                            idUsuario = id_usuario_selecionado;
+                            html += "<tr>"+
+                                        "<td>" + data_pagamento + "</td>" +
+                                        "<td>" + valor_pago + "</td>" +
+                                        "<td>" +
+                                        "<a class='btn btn-mini btn-danger mrg-center' onclick='cancelarPagamentoUsuario("+ idPag + "," + idUsuario + ");'>" +
+                                            "<span class='glyphicon glyphicon-trash'> Deletar</span>" +
+                                        "</a>" +
+                                    "</tr>";
+                        }
 
+                        html += "</tbody>" +
+                                "</table>";
 
-                            $("#tabela_pagamentos_usuario").html(html);
-                            abrir_modal("modal_pagamentos");
+                        $("#tabela_pagamentos_nome_usuario").html(nomeUsuario);
+                        $("#tabela_pagamentos_usuario").html(html);
+                        abrir_modal("modal_pagamentos");
 
                     } else {
                             html = " ";
-                            alert("Nao há pagamentos para este usuário");                        
+                            alert("Nao há pagamentos para este usuário");
                     }
                 }, "json");
 
@@ -65,38 +77,111 @@ function pagamentosUsuario() {
 
 function cancelarPagamentoUsuario (idPag, idUsuario) {
 
-	var id_usuario = idUsuario;
-	var id_pag = idPag;
-	if(idPag != undefined || idUsuario != undefined) {
-		$.post(
-			'/pagamentoCancelar/'+ id_pag + '/' + id_usuario,
-			{},
-			function(data) {
-			html = "";
-			if (data) {
-				alert("Registro foi Deletado com sucesso.");
-				$.post(
-					'/pagamento/'+ id_usuario,
-					{},
-					function(res) {
-					html = "";
-					if (res) {
-						html = res;
-						$("#tabela_pagamentos_usuario").html(html);
-					} else {
-						html = " ";
-						$("#tabela_pagamentos_usuario").html(html);                        
-					}
-				}, "json");
-			} else {
-				html = " ";
-				alert("Nao há pagamentos para este usuário");                        
-			}
-		}, "json");
-	} else {
-		console.log('Id Usuario ou Id pagamento Vazio.')
-	}
+    var id_usuario = idUsuario;
+    var id_pag = idPag;
+    if(idPag != undefined || idUsuario != undefined) {
+            $.post(
+                    '/pagamentoCancelar/'+ id_pag + '/' + id_usuario,
+                    {},
+                    function(data) {
+                    html = "";
+                    if (data) {
+                            alert("Registro foi Deletado com sucesso.");
+                            atualizalistaPagamentoUsuario(id_usuario);
+                    } else {
+                            html = " ";
+                            alert("Nao há pagamentos para este usuário");                        
+                    }
+            }, "json");
+    } else {
+            console.log('Id Usuario ou Id pagamento Vazio.')
+    }
 }
+
+function inserirPagamentoUsuario() {
+
+    var id_usuario = $('input:radio[id=usuarioId]:checked').val();
+    var valor_pag = $('#tabela_pagamentos_adicionar_valor').val();
+    var data_pag = $('#tabela_pagamentos_adicionar_data').val();
+        
+
+    if(valor_pag != undefined || data_pag != undefined) {
+        $.post(
+                '/inserirPagamento/'+ id_usuario + '/' + valor_pag + '/' + data_pag,
+                {},
+                function(data) {
+                    console.log(data);
+                html = "";
+                if (data) {
+                    $.post(
+                            '/pagamento/'+ id_usuario,
+                            {},
+                            function(res) {
+                            html = "";
+                            if (res) {
+                                    html = res;
+                                    $("#tabela_pagamentos_usuario").html(html);
+                            } else {
+                                    html = " ";
+                                    $("#tabela_pagamentos_usuario").html(html);                        
+                            }
+                    }, "json");
+                } else {
+                        html = " ";
+                        alert("Nao há pagamentos para este usuário");                        
+                }
+        }, "json");
+    } else {
+            console.log('Id Usuario ou Id pagamento Vazio.')
+    }
+}
+
+function atualizalistaPagamentoUsuario(id_usuario) {
+    $.post(
+            '/pagamento/'+ id_usuario,
+            {},
+            function(data) {
+                console.log(data);
+                html = "";
+                if (data) {
+                    html = "<table class = 'table table-striped table-hover'> " +
+                            "<thead>" +
+                                    "<tr>" +
+                                            "<th>Data Pagamento</th>" +
+                                            "<th>Valor Pago</th>" +
+                                            "<th>Opções</th>" +
+                                    "</tr>" +
+                            "</thead>" +
+                            "<tbody>";
+
+                    nomeUsuario = data[1];
+                    result = data[0];
+                    for (var i = 0; i < result.length; i++) {
+                        data_pagamento = result[i]['data'];
+                        valor_pago = result[i]['valor'];
+                        idPag = result[i]['id'];
+                        idUsuario = id_usuario;
+                        html += "<tr>"+
+                                    "<td>" + data_pagamento + "</td>" +
+                                    "<td>" + valor_pago + "</td>" +
+                                    "<td>" +
+                                    "<a class='btn btn-mini btn-danger mrg-center' onclick='cancelarPagamentoUsuario("+ idPag + "," + idUsuario + ");'>" +
+                                        "<span class='glyphicon glyphicon-trash'> Deletar</span>" +
+                                    "</a>" +
+                                "</tr>";
+                    }
+
+                    html += "</tbody>" +
+                            "</table>";
+
+                    $("#tabela_pagamentos_usuario").html(html);
+                } else {
+                        html = "Sem Registros.";
+                        $("#tabela_pagamentos_usuario").html(html);
+                }
+    }, "json");
+}
+
 
 function abrir_modal(idModal) {
 	var obj;
@@ -112,4 +197,27 @@ function abrir_modal(idModal) {
 		"keyboard": true,
 		"show": true
 	});
+}
+
+function number_format(number, decimals, dec_point, thousands_sep) {
+    number = (number + '').replace(/[^0-9+\-Ee.]/g, '');
+    var n = !isFinite(+number) ? 0 : +number,
+	    prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+	    sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
+	    dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+	    s = '',
+	    toFixedFix = function(n, prec) {
+		var k = Math.pow(10, prec);
+		return '' + Math.round(n * k) / k;
+	    };
+    // Fix for IE parseFloat(0.55).toFixed(0) = 0;
+    s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+    if (s[0].length > 3) {
+	s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+    }
+    if ((s[1] || '').length < prec) {
+	s[1] = s[1] || '';
+	s[1] += new Array(prec - s[1].length + 1).join('0');
+    }
+    return s.join(dec);
 }

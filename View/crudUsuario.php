@@ -56,16 +56,12 @@
                 $html .= " </tbody>
                         </table>
 
-                <div class='span2'>
-                        <div class='row-fluid'>
-                            <input id='usuario_pagamentos' class='btn btn-mini btn-success span12' type='button' name='usuario_pagamentos' value='Pagamentos' onclick='pagamentosUsuario();' />
+                        <div class='span2'>
+                                <div class='row-fluid'>
+                                    <input id='usuario_pagamentos' class='btn btn-mini btn-success span12' type='button' name='usuario_pagamentos' value='Pagamentos' onclick='pagamentosUsuario();' />
+                                </div>
                         </div>
-                </div>
-
-<!-- Button trigger modal -->
-<button id='usuario_pagamentos'  type='button' class='btn btn-primary' data-toggle='modal' data-target='#modal_pagamentos' onclick='pagamentosUsuario();' > Launch demo modal</button>
-
-";
+                ";
 				
 	$html .= "	</div'>
 		</div'>
@@ -78,25 +74,25 @@
 		<div class='modal-dialog modal-lg' role='document'>
 			<div class='modal-content'>
 				<div class='modal-header'>
-					<h5 class='modal-title' id='tabela_pagamentos_nome_usuario'>Bruno Haick</h5>
+					<h5 class='modal-title' id='tabela_pagamentos_nome_usuario'></h5>
 					<button type='button' class='close' data-dismiss='modal' aria-label='Close'>
 						<span aria-hidden='true'>&times;</span>
 					</button>
 				</div>
 				<div class='modal-body'>
 					<div id='tabela_pagamentos_adicionar' >
-						Data do Pagamento: <input type="text" id='' name="dataPag"/>
-						Valor: <input type="text" id='' name="valorPag"/>
-						<button type='button' class='btn btn-primary'>Adicionar</button>
+						Data do Pagamento: <input type="text" id='tabela_pagamentos_adicionar_data' name="dataPag"/>
+						Valor: <input type="text" id='tabela_pagamentos_adicionar_valor' name="valorPag"/>
+                                                <button type='button' class='btn btn-primary' onclick="inserirPagamentoUsuario();">Adicionar</button>
 						<!--<input type="submit" value="Adicionar" />-->
 					</div>
 					<hr>
 					<div id='tabela_pagamentos_usuario' > </div>
 				</div>
-				<div class='modal-footer'>
+<!--				<div class='modal-footer'>
 					<button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button>
 					<button type='button' class='btn btn-primary'>Save changes</button>
-				</div>
+				</div>-->
 			</div>
 		</div>
 	</div>

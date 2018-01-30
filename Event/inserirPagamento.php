@@ -1,7 +1,11 @@
 <?php
 include_once 'Model/pagamentoModel.php';
-$usrID= $args[0];
-$pagObj = new pagamentoModel($usrID);
-$pagObj->inserirPagamento($usrID,$_POST['dataPag'],$_POST['valorPag']);
-header("location:/pagamento/$usrID");
+$usrID = $args[0];
+$dataPag = $args[1];
+$valorPag = utils::converteData($args[2]);
 
+var_dump($args);die();
+//$pagObj = new pagamentoModel($usrID);
+//$bool = $pagObj->inserirPagamento($usrID,$dataPag,$valorPag);
+//
+//die(json_encode($bool));
