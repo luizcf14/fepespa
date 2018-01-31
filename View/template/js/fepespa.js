@@ -20,59 +20,11 @@ function pagamentosUsuario() {
 
     if ($('input:radio[id=usuarioId]').is(':checked')) {
 	id_usuario_selecionado = $('input:radio[id=usuarioId]:checked').val();
-
-	$.post(
-		'/pagamento/'+ id_usuario_selecionado,
-		{},
-                function(data) {
-                    console.log(data);
-//                    response = JSON.parse(data);
-                    html = "";
-                    if (data) {
-                        html = "<table class = 'table table-striped table-hover'> " +
-                                "<thead>" +
-                                        "<tr>" +
-                                                "<th>Data Pagamento</th>" +
-                                                "<th>Valor Pago</th>" +
-                                                "<th>Opções</th>" +
-                                        "</tr>" +
-                                "</thead>" +
-                                "<tbody>";
-
-                        nomeUsuario = data[1];
-                        result = data[0];
-                        for (var i = 0; i < result.length; i++) {
-                            data_pagamento = result[i]['data'];
-                            valor_pago = result[i]['valor'];
-                            idPag = result[i]['id'];
-                            idUsuario = id_usuario_selecionado;
-                            html += "<tr>"+
-                                        "<td>" + data_pagamento + "</td>" +
-                                        "<td>" + valor_pago + "</td>" +
-                                        "<td>" +
-                                        "<a class='btn btn-mini btn-danger mrg-center' onclick='cancelarPagamentoUsuario("+ idPag + "," + idUsuario + ");'>" +
-                                            "<span class='glyphicon glyphicon-trash'> Deletar</span>" +
-                                        "</a>" +
-                                    "</tr>";
-                        }
-
-                        html += "</tbody>" +
-                                "</table>";
-
-                        $("#tabela_pagamentos_nome_usuario").html(nomeUsuario);
-                        $("#tabela_pagamentos_usuario").html(html);
-                        abrir_modal("modal_pagamentos");
-
-                    } else {
-                            html = " ";
-                            alert("Nao há pagamentos para este usuário");
-                    }
-                }, "json");
-
+	atualizalistaPagamentoUsuario(id_usuario_selecionado);
+	abrir_modal("modal_pagamentos");
     } else {
         alert('Escolha um registro !'); return;
     }
-
 }
 
 function cancelarPagamentoUsuario (idPag, idUsuario) {
@@ -84,13 +36,9 @@ function cancelarPagamentoUsuario (idPag, idUsuario) {
                     '/pagamentoCancelar/'+ id_pag + '/' + id_usuario,
                     {},
                     function(data) {
-                    html = "";
                     if (data) {
                             alert("Registro foi Deletado com sucesso.");
                             atualizalistaPagamentoUsuario(id_usuario);
-                    } else {
-                            html = " ";
-                            alert("Nao há pagamentos para este usuário");                        
                     }
             }, "json");
     } else {
@@ -103,32 +51,18 @@ function inserirPagamentoUsuario() {
     var id_usuario = $('input:radio[id=usuarioId]:checked').val();
     var valor_pag = $('#tabela_pagamentos_adicionar_valor').val();
     var data_pag = $('#tabela_pagamentos_adicionar_data').val();
-        
-
+	
+//	data_p = data_pag.replace("/", "");
+//	dat = data_p.replace("/", "");
+;
     if(valor_pag != undefined || data_pag != undefined) {
         $.post(
                 '/inserirPagamento/'+ id_usuario + '/' + valor_pag + '/' + data_pag,
                 {},
                 function(data) {
                     console.log(data);
-                html = "";
                 if (data) {
-                    $.post(
-                            '/pagamento/'+ id_usuario,
-                            {},
-                            function(res) {
-                            html = "";
-                            if (res) {
-                                    html = res;
-                                    $("#tabela_pagamentos_usuario").html(html);
-                            } else {
-                                    html = " ";
-                                    $("#tabela_pagamentos_usuario").html(html);                        
-                            }
-                    }, "json");
-                } else {
-                        html = " ";
-                        alert("Nao há pagamentos para este usuário");                        
+                            atualizalistaPagamentoUsuario(id_usuario);
                 }
         }, "json");
     } else {
@@ -137,49 +71,50 @@ function inserirPagamentoUsuario() {
 }
 
 function atualizalistaPagamentoUsuario(id_usuario) {
-    $.post(
-            '/pagamento/'+ id_usuario,
-            {},
-            function(data) {
-                console.log(data);
-                html = "";
-                if (data) {
-                    html = "<table class = 'table table-striped table-hover'> " +
-                            "<thead>" +
-                                    "<tr>" +
-                                            "<th>Data Pagamento</th>" +
-                                            "<th>Valor Pago</th>" +
-                                            "<th>Opções</th>" +
-                                    "</tr>" +
-                            "</thead>" +
-                            "<tbody>";
+	$.post(
+	'/pagamento/'+ id_usuario,
+	{},
+	function(data) {
+		console.log(data);
+		html = "";
+		result = data[0];
+		nomeUsuario = data[1];
+		if (result) {
+			html = "<table class = 'table table-striped table-hover'> " +
+				"<thead>" +
+					"<tr>" +
+						"<th>Data Pagamento</th>" +
+						"<th>Valor Pago</th>" +
+						"<th>Opções</th>" +
+					"</tr>" +
+				"</thead>" +
+				"<tbody>";
 
-                    nomeUsuario = data[1];
-                    result = data[0];
-                    for (var i = 0; i < result.length; i++) {
-                        data_pagamento = result[i]['data'];
-                        valor_pago = result[i]['valor'];
-                        idPag = result[i]['id'];
-                        idUsuario = id_usuario;
-                        html += "<tr>"+
-                                    "<td>" + data_pagamento + "</td>" +
-                                    "<td>" + valor_pago + "</td>" +
-                                    "<td>" +
-                                    "<a class='btn btn-mini btn-danger mrg-center' onclick='cancelarPagamentoUsuario("+ idPag + "," + idUsuario + ");'>" +
-                                        "<span class='glyphicon glyphicon-trash'> Deletar</span>" +
-                                    "</a>" +
-                                "</tr>";
-                    }
+			for (var i = 0; i < result.length; i++) {
+				data_pagamento = result[i]['data'];
+				valor_pago = result[i]['valor'];
+				idPag = result[i]['id'];
+				idUsuario = id_usuario;
+				html += "<tr>"+
+						"<td>" + data_pagamento + "</td>" +
+						"<td>" + valor_pago + "</td>" +
+						"<td>" +
+							"<a class='btn btn-mini btn-danger mrg-center' onclick='cancelarPagamentoUsuario("+ idPag + "," + idUsuario + ");'>" +
+								"<span class='glyphicon glyphicon-trash'> Deletar</span>" +
+							"</a>" +
+						"</tr>";
+			}
 
-                    html += "</tbody>" +
-                            "</table>";
+			html += "</tbody>" +
+				 "</table>";
+		} else {
+			html = "Sem Registros.";
+		}
 
-                    $("#tabela_pagamentos_usuario").html(html);
-                } else {
-                        html = "Sem Registros.";
-                        $("#tabela_pagamentos_usuario").html(html);
-                }
-    }, "json");
+		$("#tabela_pagamentos_nome_usuario").html(nomeUsuario);
+		$("#tabela_pagamentos_usuario").html(html);
+
+	}, "json");
 }
 
 

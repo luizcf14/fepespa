@@ -1,17 +1,17 @@
 <?php
-	include('./Model/usuarioModel.php');
-	$usuariosModel = new usuarioModel();
-	$usuarios = $usuariosModel->getAllUsersPag();
-	echo '<h1>Users CRUD - Usuarios Confirmados</h1>';
-	$html = "";
-	$html .= "<div class'container'>
-			<div class='row-fluid'>
-				<div class='span2'>
-			
-			";
-	
+include('./Model/usuarioModel.php');
+$usuariosModel = new usuarioModel();
+$usuarios = $usuariosModel->getAllUsers();
+?>
+
+<h1>Users CRUD - Usuarios Confirmados</h1>
+<div class="container">
+	<div class='row-fluid'>
+		<div class='span2'>
+
+<?php
 	if (sizeof($usuarios) >= 1) {
-			$html .= "
+?>
 			<table class = 'table table-striped table-hover table-sm'>
 				<thead>
 					<tr>
@@ -23,7 +23,8 @@
 						<th>Cat.</th>						
 					</tr>
 				</thead>
-				<tbody>";
+				<tbody>
+<?php
                         $i = 1;
 		foreach ($usuarios as &$u) {
 
@@ -32,42 +33,31 @@
 		$data_filiacao = $u['data_filiacao'];
 		$carteirinha = $u['carteirinha'];
 		$id_usuario = $u['ID'];
-                        $html .= "
-                                    <tr>
-                                        <th scope ='row'>
-                                            <input type='radio' id='usuarioId' name='transf_opcao' class='default-checkbox' value='$id_usuario'>
-                                    </th>
-                                        <td>$display_name</td>
-                                        <td>$email</td>
-                                        <td>$data_filiacao</td>
-                                        <td>$carteirinha</td>
-                                        <td>$carteirinha</td>
-                                    </tr>
-                                ";
-                        
+?>
+					<tr>
+						<th scope ='row'>
+							<input type='radio' id='usuarioId' name='transf_opcao' class='default-checkbox' value='<?php echo $id_usuario; ?>'>
+						</th>
+						<td><?php echo $display_name; ?></td>
+						<td><?php echo $email; ?></td>
+						<td><?php echo $data_filiacao; ?></td>
+						<td><?php echo $carteirinha; ?></td>
+						<td><?php echo $carteirinha; ?></td>
+					</tr>
+<?php                        
                         $i++;
-//			echo '<td>
-//			echo '<a type="button" href="/carterinha/'.$u['ID'].'/0"> Gerar Carteirinha</a>';
-//			echo '<a type="button" href="/pagamento/'.$u['ID'].'/0"> Pagamentos</a>';
-//			echo '</td>';
-//			echo '</tr>';
 		}
+?>
+				</tbody>
+			</table>
 
-                $html .= " </tbody>
-                        </table>
-
-                        <div class='span2'>
-                                <div class='row-fluid'>
-                                    <input id='usuario_pagamentos' class='btn btn-mini btn-success span12' type='button' name='usuario_pagamentos' value='Pagamentos' onclick='pagamentosUsuario();' />
-                                </div>
-                        </div>
-                ";
-				
-	$html .= "	</div'>
-		</div'>
-		";
-	
-	?>
+			<div class='span2'>
+				<div class='row-fluid'>
+					<input id='usuario_pagamentos' class='btn btn-mini btn-success span12' type='button' name='usuario_pagamentos' value='Pagamentos' onclick='pagamentosUsuario();' />
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<!-- Modal -->
 	<div class='modal fade' id='modal_pagamentos' tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true'>
@@ -83,7 +73,7 @@
 					<div id='tabela_pagamentos_adicionar' >
 						Data do Pagamento: <input type="text" id='tabela_pagamentos_adicionar_data' name="dataPag"/>
 						Valor: <input type="text" id='tabela_pagamentos_adicionar_valor' name="valorPag"/>
-                                                <button type='button' class='btn btn-primary' onclick="inserirPagamentoUsuario();">Adicionar</button>
+						<button type='button' class='btn btn-primary' onclick="inserirPagamentoUsuario();">Adicionar</button>
 						<!--<input type="submit" value="Adicionar" />-->
 					</div>
 					<hr>
@@ -97,42 +87,13 @@
 		</div>
 	</div>
 
-
 <?php
-	
-	echo $html;
-	unset($html);
 	} else {
-		echo '<b>Sem Usuarios</b>';
-		echo '</br>';
+?>
+	<b>Sem Registros</b> </br>';
+<?php
 	}
-
-	$usuarios = $usuariosModel->getAllUsersNOTPag();
-	echo '<h1>Users CRUD - Usuarios Pendentes</h1>';
-	echo "<table style='border:1px'>";
-	foreach ($usuarios as &$u) {
-		echo '<tr>';
-		echo '<td>';
-		echo $u['display_name'];
-		echo '</td>';
-		echo '<td>';
-		echo $u['user_login'];
-		echo '</td>';
-		echo '<td>';
-		echo $u['data_filiacao'];
-		echo '</td>';
-		echo '<td>';
-		echo $u['user_email'];
-		echo '</td>';
-		echo '<td>';
-		echo $u['carteirinha'];
-		echo '</td>';
-		echo '<td>';
-	   echo '<a type="button" href="/carterinha/'.$u['ID'].'/1"> Confirmar Pagamento</a>';
-		echo '</td>';
-		echo '</tr>';
-	}
-	echo '</table>'
+	
 ?>
 </body>
 </html>

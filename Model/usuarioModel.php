@@ -11,7 +11,7 @@ class usuarioModel{
     }
     
     function getAllUsers(){
-        $query = "SELECT * FROM $this->dbname.$this->table";
+        $query = "SELECT * FROM $this->dbname.$this->table ORDER BY display_name";
         $result = mysqli_query($this->connection,$query);
         return  $result->fetch_all(MYSQLI_ASSOC);
         
