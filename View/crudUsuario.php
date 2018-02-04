@@ -64,14 +64,14 @@ $usuarios = $usuariosModel->getAllUsers();
 		<div class='modal-dialog modal-lg' role='document'>
 			<div class='modal-content'>
 				<div class='modal-header'>
-					<h5 class='modal-title' id='tabela_pagamentos_nome_usuario'></h5>
 					<button type='button' class='close' data-dismiss='modal' aria-label='Close'>
 						<span aria-hidden='true'>&times;</span>
 					</button>
+					<h4 class='modal-title' id='tabela_pagamentos_nome_usuario'></h4>
 				</div>
 				<div class='modal-body'>
 					<div id='tabela_pagamentos_adicionar' >
-						Data do Pagamento: <input type="text" id='tabela_pagamentos_adicionar_data' name="dataPag"/>
+						Data do Pagamento: <input type="date" id='tabela_pagamentos_adicionar_data' name="dataPag"/>
 						Valor: <input type="text" id='tabela_pagamentos_adicionar_valor' name="valorPag"/>
 						<button type='button' class='btn btn-primary' onclick="inserirPagamentoUsuario();">Adicionar</button>
 						<!--<input type="submit" value="Adicionar" />-->

@@ -14,6 +14,7 @@ $(document).ready(function() {
 //		}
 //	});
 //
+   $('#tabela_todos_usuarios').DataTable();
 });
 
 function pagamentosUsuario() {
@@ -52,9 +53,6 @@ function inserirPagamentoUsuario() {
     var valor_pag = $('#tabela_pagamentos_adicionar_valor').val();
     var data_pag = $('#tabela_pagamentos_adicionar_data').val();
 	
-//	data_p = data_pag.replace("/", "");
-//	dat = data_p.replace("/", "");
-;
     if(valor_pag != undefined || data_pag != undefined) {
         $.post(
                 '/inserirPagamento/'+ id_usuario + '/' + valor_pag + '/' + data_pag,
@@ -62,7 +60,7 @@ function inserirPagamentoUsuario() {
                 function(data) {
                     console.log(data);
                 if (data) {
-                            atualizalistaPagamentoUsuario(id_usuario);
+		atualizalistaPagamentoUsuario(id_usuario);
                 }
         }, "json");
     } else {
@@ -100,7 +98,7 @@ function atualizalistaPagamentoUsuario(id_usuario) {
 						"<td>" + valor_pago + "</td>" +
 						"<td>" +
 							"<a class='btn btn-mini btn-danger mrg-center' onclick='cancelarPagamentoUsuario("+ idPag + "," + idUsuario + ");'>" +
-								"<span class='glyphicon glyphicon-trash'> Deletar</span>" +
+								"<i class='glyphicon glyphicon-trash'></i>" +
 							"</a>" +
 						"</tr>";
 			}
