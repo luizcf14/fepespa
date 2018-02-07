@@ -12,7 +12,7 @@ $usuarios = $usuariosModel->getAllUsers();
 <?php
 	if (sizeof($usuarios) >= 1) {
 ?>
-			<table class = 'table table-striped table-hover table-sm'>
+			<table id='lista_todos_usuarios' class = 'display table table-striped table-hover table-sm'>
 				<thead>
 					<tr>
 						<th>#</th>
@@ -28,15 +28,15 @@ $usuarios = $usuariosModel->getAllUsers();
                         $i = 1;
 		foreach ($usuarios as &$u) {
 
-		$display_name = ucwords(strtolower($u['display_name']));
-		$email = $u['user_email'];
-		$data_filiacao = $u['data_filiacao'];
-		$carteirinha = $u['carteirinha'];
-		$id_usuario = $u['ID'];
+			$display_name = ucwords(strtolower($u['display_name']));
+			$email = $u['user_email'];
+			$data_filiacao = "";
+			$carteirinha = $u['carteirinha'];
+			$id_usuario = $u['ID'];
 ?>
-					<tr>
+					<tr onclick="marcaRadio(<?php echo $id_usuario; ?>);">
 						<th scope ='row'>
-							<input type='radio' id='usuarioId' name='transf_opcao' class='default-checkbox' value='<?php echo $id_usuario; ?>'>
+							<input type='radio' id='usuarioId' name='transf_opcao' class='default-checkbox' value='<?php echo $id_usuario; ?>'><i class="fa fa-circle-o fa-2x"></i><i class="fa fa-dot-circle-o fa-2x"></i>
 						</th>
 						<td><?php echo $display_name; ?></td>
 						<td><?php echo $email; ?></td>

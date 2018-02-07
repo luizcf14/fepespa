@@ -14,8 +14,45 @@ $(document).ready(function() {
 //		}
 //	});
 //
-   $('#tabela_todos_usuarios').DataTable();
+
+	$('#lista_todos_usuarios').DataTable( {
+		language: {
+			"sEmptyTable": "Nenhum registro encontrado",
+			"sInfo": "Mostrando de _START_ até _END_. Total de <b> _TOTAL_ registros </b>",
+			"sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+			"sInfoFiltered": "(Filtrados de _MAX_ registros)",
+			"sInfoPostFix": "",
+			"sInfoThousands": ".",
+			"sLengthMenu": "Mostrar _MENU_ Resultados por Página",
+			"sLoadingRecords": "Carregando...",
+			"sProcessing": "Processando...",
+			"sZeroRecords": "Nenhum registro encontrado",
+			"sSearch": "Pesquisar",
+			"oPaginate": {
+				"sNext": "Próximo",
+				"sPrevious": "Anterior",
+				"sFirst": "Primeiro",
+				"sLast": "Último"
+			},
+			"oAria": {
+				"sSortAscending": ": Ordenar colunas de forma ascendente",
+				"sSortDescending": ": Ordenar colunas de forma descendente"
+			}
+		}
+	} );
+
 });
+
+function marcaRadio(idUsuario) {
+	
+	if($("input:radio[value=" + idUsuario  + "]").is(':checked')) {
+		$("input:radio[value=" + idUsuario  + "]").prop("checked", false);
+	} else {
+		$("input:radio[value=" + idUsuario  + "]").prop("checked", true);
+	}
+	
+	
+}
 
 function pagamentosUsuario() {
 
@@ -69,6 +106,13 @@ function inserirPagamentoUsuario() {
 }
 
 function atualizalistaPagamentoUsuario(id_usuario) {
+	
+	/*
+	* Limpando tela do modal.
+	*/
+	$("#tabela_pagamentos_nome_usuario").html("");
+	$("#tabela_pagamentos_usuario").html("");
+
 	$.post(
 	'/pagamento/'+ id_usuario,
 	{},
@@ -98,7 +142,7 @@ function atualizalistaPagamentoUsuario(id_usuario) {
 						"<td>" + valor_pago + "</td>" +
 						"<td>" +
 							"<a class='btn btn-mini btn-danger mrg-center' onclick='cancelarPagamentoUsuario("+ idPag + "," + idUsuario + ");'>" +
-								"<i class='glyphicon glyphicon-trash'></i>" +
+								"<span class='glyphicon glyphicon-trash'></span>" +
 							"</a>" +
 						"</tr>";
 			}
