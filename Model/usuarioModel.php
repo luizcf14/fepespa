@@ -35,12 +35,27 @@ class usuarioModel{
         $query = "SELECT * FROM $this->dbname.$this->table ORDER BY display_name";
         $result = mysqli_query($this->connection,$query);
         return  $result->fetch_all(MYSQLI_ASSOC);
-        
     }
     
+    function getAllUSerMetaData($userId){
+        $query = "
+                SELECT 
+                    meta_key,
+                    meta_value
+                FROM
+                    wp_usermeta
+                WHERE
+                    user_id = $userId
+                    AND
+                    meta_key IN ('birth_date','paintTeam','role','codigo_filiacao','data_filiacao')
+                ";
+        var_dump($query);
+        $result = mysqli_query($this->connection,$query);
+        return  $result->fetch_all(MYSQLI_ASSOC);
+    }
+            
     function setPagamento($id,$status = 0){
         $query = "UPDATE $this->dbname.$this->table SET carteirinha = '$status' WHERE id = '$id'";
-       // var_dump($query);
         $result = mysqli_query($this->connection,$query);
         return $result;
     }

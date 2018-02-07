@@ -2,6 +2,14 @@
 include('./Model/usuarioModel.php');
 $usuariosModel = new usuarioModel();
 $usuarios = $usuariosModel->getAllUsers();
+
+		foreach ($usuarios as &$u) {
+
+			$id_usuario = $u['ID'];
+                        $metadata = $usuariosModel->getAllUSerMetaData($id_usuario);
+                        print_r($metadata);
+                }
+                die();
 ?>
 
 <h1>Users CRUD - Usuarios Confirmados</h1>
@@ -28,11 +36,12 @@ $usuarios = $usuariosModel->getAllUsers();
                         $i = 1;
 		foreach ($usuarios as &$u) {
 
+			$id_usuario = $u['ID'];
+                        $metadata = $usuariosModel->getAllUSerMetaData($id_usuario);
 			$display_name = ucwords(strtolower($u['display_name']));
 			$email = $u['user_email'];
 			$data_filiacao = "";
 			$carteirinha = $u['carteirinha'];
-			$id_usuario = $u['ID'];
 ?>
 					<tr onclick="marcaRadio(<?php echo $id_usuario; ?>);">
 						<th scope ='row'>
