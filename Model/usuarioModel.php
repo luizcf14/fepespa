@@ -1,15 +1,14 @@
 <?php
 include('./Controller/mysqlConnection.php');
 class usuarioModel{
-    private $connection = null;
-    private $table = 'wp_users';
-//    private $table_meta = 'wp_usermeta';
-    private $dbname = 'fepes861_fepespa';
-    public function __construct() {
-        $mysql = new mysqlConnection();
-        $this->connection = $mysql->connect();
-       
-    }
+	private $connection = null;
+	private $table = 'wp_users';
+    private $table_meta = 'wp_usermeta';
+	private $dbname = 'fepes861_fepespa';
+	public function __construct() {
+		$mysql = new mysqlConnection();
+		$this->connection = $mysql->connect();
+	}
 
 //SELECT meta_key, meta_value FROM `wp_usermeta` WHERE user_id IN (1,74) AND meta_key IN ("birth_date","paintTeam","role","codigo_filiacao","data_filiacao" )
 //ORDER BY `wp_usermeta`.`user_id` ASC
@@ -38,18 +37,17 @@ class usuarioModel{
     }
     
     function getAllUSerMetaData($userId){
-        $query = "
-                SELECT 
-                    meta_key,
-                    meta_value
-                FROM
-                    wp_usermeta
-                WHERE
-                    user_id = $userId
-                    AND
-                    meta_key IN ('birth_date','paintTeam','role','codigo_filiacao','data_filiacao')
-                ";
-        var_dump($query);
+//        $query = "
+//                SELECT 
+//                    *                FROM
+//                    wp_usermeta
+//                WHERE
+//                    user_id = 1
+//                    AND
+//                    meta_key IN ('birth_date','paintTeam','role','codigo_filiacao','data_filiacao')
+//                ";
+//        var_dump($query);
+        $query = "SELECT meta_key, meta_value FROM $this->dbname.$this->table_meta WHERE  user_id = 1";
         $result = mysqli_query($this->connection,$query);
         return  $result->fetch_all(MYSQLI_ASSOC);
     }

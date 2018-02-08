@@ -2,14 +2,16 @@
 include('./Model/usuarioModel.php');
 $usuariosModel = new usuarioModel();
 $usuarios = $usuariosModel->getAllUsers();
+$metadata = $usuariosModel->getAllUSerMetaData(1);
+		print_r($metadata);
+	die("bruno auehauehaueha aheuaheuhaeu");
 
-		foreach ($usuarios as &$u) {
-
-			$id_usuario = $u['ID'];
-                        $metadata = $usuariosModel->getAllUSerMetaData($id_usuario);
-                        print_r($metadata);
-                }
-                die();
+	foreach ($usuarios as &$u) {
+		$id_usuario = $u['ID'];
+		$metadata = $usuariosModel->getAllUSerMetaData($id_usuario);
+		print_r($metadata);
+	}
+	die();
 ?>
 
 <h1>Users CRUD - Usuarios Confirmados</h1>
