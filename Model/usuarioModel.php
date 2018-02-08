@@ -31,23 +31,34 @@ class usuarioModel{
 
 	
     function getAllUsers(){
-        $query = "SELECT * FROM $this->dbname.$this->table ORDER BY display_name";
+        $query = "
+                SELECT
+                    ID,
+                    display_name,
+                    user_email,
+                    carteirinha
+                FROM
+                    $this->dbname.$this->table
+                ORDER BY
+                    display_name
+                ";
         $result = mysqli_query($this->connection,$query);
         return  $result->fetch_all(MYSQLI_ASSOC);
     }
     
     function getAllUSerMetaData($userId){
-//        $query = "
-//                SELECT 
-//                    *                FROM
-//                    wp_usermeta
-//                WHERE
-//                    user_id = 1
-//                    AND
-//                    meta_key IN ('birth_date','paintTeam','role','codigo_filiacao','data_filiacao')
-//                ";
+        $query = "
+                SELECT
+                    meta_key,
+                    meta_value
+                FROM
+                    $this->dbname.$this->table_meta
+                WHERE
+                    user_id = $userId
+                    AND 
+                    meta_key IN ('birth_date','paintTeam','role','codigo_filiacao','data_filiacao')
+                ";
 //        var_dump($query);
-        $query = "SELECT meta_key, meta_value FROM $this->dbname.$this->table_meta WHERE  user_id = 1";
         $result = mysqli_query($this->connection,$query);
         return  $result->fetch_all(MYSQLI_ASSOC);
     }

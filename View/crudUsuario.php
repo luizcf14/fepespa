@@ -1,17 +1,38 @@
 <?php
-include('./Model/usuarioModel.php');
-$usuariosModel = new usuarioModel();
-$usuarios = $usuariosModel->getAllUsers();
-$metadata = $usuariosModel->getAllUSerMetaData(1);
-		print_r($metadata);
-	die("bruno auehauehaueha aheuaheuhaeu");
-
-	foreach ($usuarios as &$u) {
-		$id_usuario = $u['ID'];
-		$metadata = $usuariosModel->getAllUSerMetaData($id_usuario);
-		print_r($metadata);
-	}
-	die();
+    include('./Model/usuarioModel.php');
+    $usuariosModel = new usuarioModel();
+    $usuarios = $usuariosModel->getAllUsers();
+    
+    
+    
+    
+//		foreach ($usuarios as $u) {
+//
+//			$id_usuario = $u['ID'];
+//                        $metadata = $usuariosModel->getAllUSerMetaData($id_usuario);
+//                        foreach ($metadata as $a) {
+//                                $key = $a['meta_key'] . " ";
+//                                $u["$key"] = $a['meta_value'];
+//                        }
+//$x[] = $u;
+//                        if (array_key_exists("role", $u)) {
+//                            $tipo_usuario = $u['role'];
+//                        }
+//                        if (array_key_exists("birth_date", $u)) {
+//                            $data_nasc = $u['birth_date'];
+//                        }
+//                        if (array_key_exists("paintTeam", $u)) {
+//                            $paintTeam = $u['paintTeam'];
+//                        }
+//                        if (array_key_exists("codigo_filiacao", $u)) {
+//                            $codigo_filiacao = $u['codigo_filiacao'];
+//                        }
+//                        if (array_key_exists("data_filiacao", $u)) {
+//                            $data_filiacao = utils::converteData($u['data_filiacao']);
+//                        }
+//                }
+//                print_r($x);
+//                die();
 ?>
 
 <h1>Users CRUD - Usuarios Confirmados</h1>
@@ -29,21 +50,61 @@ $metadata = $usuariosModel->getAllUSerMetaData(1);
 						<th>Nome</th>
 						<th>Email</th>
 						<th>Filiação</th>
-						<th>Pagamentos</th>
-						<th>Cat.</th>						
+						<th>Data Filiação</th>
+                                                <th>Data Nasc.</th>
+                                                <th>Time</th>
+                                                <th>Cart.</th>
 					</tr>
 				</thead>
 				<tbody>
 <?php
                         $i = 1;
-		foreach ($usuarios as &$u) {
+		foreach ($usuarios as $u) {
 
 			$id_usuario = $u['ID'];
                         $metadata = $usuariosModel->getAllUSerMetaData($id_usuario);
+                        foreach ($metadata as $a) {
+                                $key = $a['meta_key'];
+                                $u["$key"] = $a['meta_value'];
+                        }
+
+                        if (array_key_exists("role", $u)) {
+                            $tipo_usuario = $u['role'];
+                        } else {
+                            $tipo_usuario = "";
+                        }
+                        
+                        if (array_key_exists("birth_date", $u)) {
+                            $data_nasc = $u['birth_date'];
+                        } else {
+                            $data_nasc = "";
+                        }
+
+                        if (array_key_exists("paintTeam", $u)) {
+                            $paintTeam = $u['paintTeam'];
+                        } else {
+                            $paintTeam = "";
+                        }
+
+                        if (array_key_exists("codigo_filiacao", $u)) {
+                            $codigo_filiacao = $u['codigo_filiacao'];
+                        } else {
+                            $codigo_filiacao = "";
+                        }
+
+                        if (array_key_exists("data_filiacao", $u)) {
+                            $data_filiacao = $u['data_filiacao'];
+                        } else {
+                            $data_filiacao = "";
+                        }
+
+                        if($u['carteirinha'] == 0) {
+                            $carteirinha = "Atual";
+                        } else {
+                            $carteirinha = "Nao Atual";
+                        }
 			$display_name = ucwords(strtolower($u['display_name']));
 			$email = $u['user_email'];
-			$data_filiacao = "";
-			$carteirinha = $u['carteirinha'];
 ?>
 					<tr onclick="marcaRadio(<?php echo $id_usuario; ?>);">
 						<th scope ='row'>
@@ -51,8 +112,10 @@ $metadata = $usuariosModel->getAllUSerMetaData(1);
 						</th>
 						<td><?php echo $display_name; ?></td>
 						<td><?php echo $email; ?></td>
+						<td><?php echo $codigo_filiacao; ?></td>
 						<td><?php echo $data_filiacao; ?></td>
-						<td><?php echo $carteirinha; ?></td>
+						<td><?php echo $data_nasc; ?></td>
+						<td><?php echo $paintTeam; ?></td>
 						<td><?php echo $carteirinha; ?></td>
 					</tr>
 <?php                        
