@@ -1,11 +1,8 @@
 <?php
-    include('./Model/usuarioModel.php');
-    $usuariosModel = new usuarioModel();
-    $usuarios = $usuariosModel->getAllUsers();
-    
-    
-    
-    
+include('./Model/usuarioModel.php');
+$usuariosModel = new usuarioModel();
+$usuarios = $usuariosModel->getAllUsers();
+
 //		foreach ($usuarios as $u) {
 //
 //			$id_usuario = $u['ID'];
@@ -51,49 +48,49 @@
 						<th>Email</th>
 						<th>Filiação</th>
 						<th>Data Filiação</th>
-                                                <th>Data Nasc.</th>
-                                                <th>Time</th>
-                                                <th>Cart.</th>
+						<th>Data Nasc.</th>
+						<th>Equipe</th>
+						<th>Cart.</th>
 					</tr>
 				</thead>
 				<tbody>
 <?php
                         $i = 1;
-		foreach ($usuarios as $u) {
+	foreach ($usuarios as $u) {
 
-			$id_usuario = $u['ID'];
-                        $metadata = $usuariosModel->getAllUSerMetaData($id_usuario);
-                        foreach ($metadata as $a) {
-                                $key = $a['meta_key'];
-                                $u["$key"] = $a['meta_value'];
-                        }
+		$id_usuario = $u['ID'];
+		$metadata = $usuariosModel->getAllUSerMetaData($id_usuario);
+		foreach ($metadata as $a) {
+			$key = $a['meta_key'];
+			$u["$key"] = $a['meta_value'];
+		}
 
-                        if (array_key_exists("role", $u)) {
-                            $tipo_usuario = $u['role'];
-                        } else {
-                            $tipo_usuario = "";
-                        }
-                        
-                        if (array_key_exists("birth_date", $u)) {
-                            $data_nasc = $u['birth_date'];
-                        } else {
-                            $data_nasc = "";
-                        }
+		if (array_key_exists("role", $u)) {
+			$tipo_usuario = $u['role'];
+		} else {
+			$tipo_usuario = "";
+		}
 
-                        if (array_key_exists("paintTeam", $u)) {
-                            $paintTeam = $u['paintTeam'];
+		if (array_key_exists("birth_date", $u)) {
+			$data_nasc = utils::inverteData($u['birth_date']);
+		} else {
+			$data_nasc = "";
+		}
+
+		if (array_key_exists("paintTeam", $u)) {
+			$paintTeam = strtoupper($u['paintTeam']);
                         } else {
                             $paintTeam = "";
                         }
 
                         if (array_key_exists("codigo_filiacao", $u)) {
-                            $codigo_filiacao = $u['codigo_filiacao'];
+			$codigo_filiacao = intval($u['codigo_filiacao']);
                         } else {
-                            $codigo_filiacao = "";
+			$codigo_filiacao = "";
                         }
 
                         if (array_key_exists("data_filiacao", $u)) {
-                            $data_filiacao = $u['data_filiacao'];
+                            $data_filiacao = utils::traduzData(utils::inverteData($u['data_filiacao']));
                         } else {
                             $data_filiacao = "";
                         }
@@ -103,8 +100,9 @@
                         } else {
                             $carteirinha = "Nao Atual";
                         }
-			$display_name = ucwords(strtolower($u['display_name']));
-			$email = $u['user_email'];
+
+		$display_name = ucwords(strtolower($u['display_name']));
+		$email = $u['user_email'];
 ?>
 					<tr onclick="marcaRadio(<?php echo $id_usuario; ?>);">
 						<th scope ='row'>
@@ -119,8 +117,8 @@
 						<td><?php echo $carteirinha; ?></td>
 					</tr>
 <?php                        
-                        $i++;
-		}
+		$i++;
+	}
 ?>
 				</tbody>
 			</table>
