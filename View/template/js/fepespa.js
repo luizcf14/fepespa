@@ -89,7 +89,7 @@ function inserirPagamentoUsuario() {
     var id_usuario = $('input:radio[id=usuarioId]:checked').val();
     var valor_pag = $('#tabela_pagamentos_adicionar_valor').val();
     var data_pag = $('#tabela_pagamentos_adicionar_data').val();
-	
+
     if(valor_pag != undefined || data_pag != undefined) {
         $.post(
                 '/inserirPagamento/'+ id_usuario + '/' + valor_pag + '/' + data_pag,
@@ -133,7 +133,7 @@ function atualizalistaPagamentoUsuario(id_usuario) {
 				"<tbody>";
 
 			for (var i = 0; i < result.length; i++) {
-				data_pagamento = result[i]['data'];
+				data_pagamento = result[i]['data_pagamento'];
 				valor_pago = result[i]['valor'];
 				idPag = result[i]['id'];
 				idUsuario = id_usuario;

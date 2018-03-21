@@ -84,7 +84,12 @@ $usuarios = $usuariosModel->getAllUsers();
                         }
 
                         if (array_key_exists("codigo_filiacao", $u)) {
-			$codigo_filiacao = intval($u['codigo_filiacao']);
+			$codigo_filiacao = $u['codigo_filiacao'];
+			if(preg_match('/^F/', $codigo_filiacao)) {
+				$codigo_filiacao = $u['codigo_filiacao'];
+			} else {
+				$codigo_filiacao = intval($u['codigo_filiacao']);
+			}
                         } else {
 			$codigo_filiacao = "";
                         }

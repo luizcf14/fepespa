@@ -1,10 +1,13 @@
 <?php
 include('./Controller/mysqlConnection.php');
-class usuarioModel{
+class usuarioModel {
+
 	private $connection = null;
 	private $table = 'wp_users';
-    private $table_meta = 'wp_usermeta';
+	private $table_meta = 'wp_usermeta';
+	private $table_historico = 'wp_usermeta';
 	private $dbname = 'fepes861_fepespa';
+
 	public function __construct() {
 		$mysql = new mysqlConnection();
 		$this->connection = $mysql->connect();
@@ -12,7 +15,6 @@ class usuarioModel{
 
 //SELECT meta_key, meta_value FROM `wp_usermeta` WHERE user_id IN (1,74) AND meta_key IN ("birth_date","paintTeam","role","codigo_filiacao","data_filiacao" )
 //ORDER BY `wp_usermeta`.`user_id` ASC
-	
 //        $query = "
 //		SELECT
 //			wp_users.*,
@@ -29,68 +31,112 @@ class usuarioModel{
 //			display_name
 //		";
 
-	
-    function getAllUsers(){
-        $query = "
-                SELECT
-                    ID,
-                    display_name,
-                    user_email,
-                    carteirinha
-                FROM
-                    $this->dbname.$this->table
-                ORDER BY
-                    display_name
-                ";
-        $result = mysqli_query($this->connection,$query);
-        return  $result->fetch_all(MYSQLI_ASSOC);
-    }
-    
-    function getAllUSerMetaData($userId){
-        $query = "
-                SELECT
-                    meta_key,
-                    meta_value
-                FROM
-                    $this->dbname.$this->table_meta
-                WHERE
-                    user_id = $userId
-                    AND 
-                    meta_key IN ('birth_date','paintTeam','role','codigo_filiacao','data_filiacao')
-                ";
-//        var_dump($query);
-        $result = mysqli_query($this->connection,$query);
-        return  $result->fetch_all(MYSQLI_ASSOC);
-    }
-            
-    function setPagamento($id,$status = 0){
-        $query = "UPDATE $this->dbname.$this->table SET carteirinha = '$status' WHERE id = '$id'";
-        $result = mysqli_query($this->connection,$query);
-        return $result;
-    }
-    
-      function setFiliacao($id,$data){
-        $query = "UPDATE $this->dbname.$this->table SET data_filiacao = $data WHERE id = '$id'";
-        $result = mysqli_query($this->connection,$query);
-        return $result;
-    }
-    
-    function getAllUsersPag(){
-        $query = "SELECT * FROM $this->dbname.$this->table  WHERE carteirinha = 1";
-        $result = mysqli_query($this->connection,$query);
-       // var_dump($query);die();
-        return  $result->fetch_all(MYSQLI_ASSOC);
-        
-    }
-    function getAllUsersNOTPag(){
-        $query = "SELECT * FROM $this->dbname.$this->table WHERE carteirinha = 0";
-        $result = mysqli_query($this->connection,$query);
-        return  $result->fetch_all(MYSQLI_ASSOC);
-    }
-    function getUsuario($id){
-        $query = "SELECT * FROM $this->dbname.$this->table WHERE ID = $id";
-        $result = mysqli_query($this->connection,$query);
-        //var_dump($query);die();
-        return $result->fetch_all(MYSQLI_ASSOC);
-    }
+
+	function getAllUsers() {
+		$query = "
+				SELECT
+					ID,
+					display_name,
+					user_email,
+					carteirinha
+				FROM
+					$this->dbname.$this->table
+				ORDER BY
+					display_name
+		";
+//				limit 0,2
+		$result = mysqli_query($this->connection, $query);
+		return $result->fetch_all(MYSQLI_ASSOC);
+	}
+
+	function getAllUSerMetaData($userId) {
+		$query = "
+				SELECT
+					meta_key,
+					meta_value
+				FROM
+					$this->dbname.$this->table_meta
+				WHERE
+					user_id = $userId
+					AND 
+					meta_key IN ('birth_date','paintTeam','role','codigo_filiacao','data_filiacao')
+		";
+		//        var_dump($query);
+		$result = mysqli_query($this->connection, $query);
+		return $result->fetch_all(MYSQLI_ASSOC);
+	}
+
+	function getDataFiliacao($userId) {
+		$query = "
+				SELECT
+					meta_value
+				FROM
+					$this->dbname.$this->table_meta
+				WHERE
+					user_id = $userId
+					AND 
+					meta_key IN ('data_filiacao')
+		";
+		//        var_dump($query);
+		$result = mysqli_query($this->connection, $query);
+		$arr = $result->fetch_all(MYSQLI_ASSOC);
+		
+		return $arr[0]['meta_value'];
+	}
+
+	function getUltimaDataValidadePagamento($userId) {
+		$query = "
+				SELECT
+					data_validade
+				FROM
+					$this->dbname.$this->table_historico
+				WHERE
+					user_id = $userId
+				ORDER BY
+					data_validade
+				DESC
+				LIMIT 0,1
+		";
+		//        var_dump($query);
+		$result = mysqli_query($this->connection, $query);
+		if($result) {
+			$arr = $result->fetch_all(MYSQLI_ASSOC);
+			return $arr[0]['meta_value'];
+		} else {
+			return $result;
+		}
+	}
+
+	function setPagamento($id, $status = 0) {
+		$query = "UPDATE $this->dbname.$this->table SET carteirinha = '$status' WHERE id = '$id'";
+		$result = mysqli_query($this->connection, $query);
+		return $result;
+	}
+
+	function setFiliacao($id, $data) {
+		$query = "UPDATE $this->dbname.$this->table SET data_filiacao = $data WHERE id = '$id'";
+		$result = mysqli_query($this->connection, $query);
+		return $result;
+	}
+
+	function getAllUsersPag() {
+		$query = "SELECT * FROM $this->dbname.$this->table  WHERE carteirinha = 1";
+		$result = mysqli_query($this->connection, $query);
+		// var_dump($query);die();
+		return $result->fetch_all(MYSQLI_ASSOC);
+	}
+
+	function getAllUsersNOTPag() {
+		$query = "SELECT * FROM $this->dbname.$this->table WHERE carteirinha = 0";
+		$result = mysqli_query($this->connection, $query);
+		return $result->fetch_all(MYSQLI_ASSOC);
+	}
+
+	function getUsuario($id) {
+		$query = "SELECT * FROM $this->dbname.$this->table WHERE ID = $id";
+		$result = mysqli_query($this->connection, $query);
+		//var_dump($query);die();
+		return $result->fetch_all(MYSQLI_ASSOC);
+	}
+
 }

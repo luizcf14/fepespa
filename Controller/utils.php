@@ -73,9 +73,8 @@ class utils {
 	 * Ou NULL caso a data seja composta totalmente por 0 (zeros);
 	 *
 	 */
-
 	public static function inverteData($data) {
-		
+
 		if (self::valida_data($data)) {
 			return implode("/", array_reverse(explode("/", $data)));
 		} else {
@@ -83,7 +82,6 @@ class utils {
 		}
 	}
 
-	
 	/**
 	 * Função para Traduzir uma data em Ingês para Português
 	 *
@@ -100,7 +98,6 @@ class utils {
 	 * Exemplo de retorno: out 2013
 	 *
 	 */
-
 	public static function traduzData($data) {
 
 		$arr_data = explode("/", $data);
@@ -126,7 +123,6 @@ class utils {
 	 * 	String encurtada
 	 *
 	 */
-
 	public static function mostraMes($m) {
 		$mes = "";
 		switch ($m) {
@@ -156,6 +152,66 @@ class utils {
 				break;
 		}
 		return $mes;
+	}
+
+	/**
+	 * Função para Adicionar dias, meses ou anos a uma determinada data que é
+	 * passada como parâmetro desta funcção.
+	 *
+	 * @param $data no formato xx/xx/xxxx
+	 * @param $qtd
+	 * @param $tipo (dia, mes ou ano)
+	 *
+	 * @author Bruno Haick
+	 * @date Criação: 18/10/2012
+	 *
+	 * @return
+	 * 	$data somando-se o que se deseja no formato xx/xx/xxxx
+	 *
+	 */
+	public static function somarData($data, $qtd, $tipo) {
+
+		if ($tipo == "dia") {
+			$tipo = "days";
+		} else if ($tipo == "mes") {
+			$tipo = "month";
+		} else if ($tipo == "ano") {
+			$tipo = "year";
+		}
+
+		$data = converteData($data);
+
+		return date('d/m/Y', strtotime("+$qtd  $tipo", strtotime($data)));
+	}
+
+	/**
+	 * Função para Diminuir dias, meses ou anos a uma determinada data que é 
+	 * passada como parâmetro desta funcção.
+	 *
+	 * @param $data
+	 * @param $qtdDias
+	 * @param $tipo (dia, mes ou ano)
+	 *
+	 * @author Bruno Haick
+	 * @date Criação: 18/10/2012
+	 *
+	 * @return
+	 * 	$data subtraindo-se o que se deseja
+	 *
+	 */
+	public static function subtrairData($data, $qtd, $tipo) {
+
+		if ($tipo == "dia") {
+			$tipo = "days";
+		} else if ($tipo == "mes") {
+			$tipo = "month";
+		} else if ($tipo == "ano") {
+			$tipo = "year";
+		}
+
+		$data = converteData($data);
+
+		return date('d/m/Y', strtotime("-$qtd  $tipo", strtotime($data)));
 	}
 
 }
