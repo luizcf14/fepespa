@@ -50,15 +50,13 @@ function marcaRadio(idUsuario) {
 	} else {
 		$("input:radio[value=" + idUsuario  + "]").prop("checked", true);
 	}
-	
-	
 }
 
-function pagamentosUsuario() {
+function pagamentosUsuario(data) {
 
     if ($('input:radio[id=usuarioId]').is(':checked')) {
 	id_usuario_selecionado = $('input:radio[id=usuarioId]:checked').val();
-	atualizalistaPagamentoUsuario(id_usuario_selecionado);
+	atualizalistaPagamentoUsuario(id_usuario_selecionado, data);
 	abrir_modal("modal_pagamentos");
     } else {
         alert('Escolha um registro !'); return;
@@ -105,13 +103,15 @@ function inserirPagamentoUsuario() {
     }
 }
 
-function atualizalistaPagamentoUsuario(id_usuario) {
+function atualizalistaPagamentoUsuario(id_usuario, data_atual) {
 	
 	/*
 	* Limpando tela do modal.
 	*/
 	$("#tabela_pagamentos_nome_usuario").html("");
 	$("#tabela_pagamentos_usuario").html("");
+	$("#tabela_pagamentos_adicionar_data").val(data_atual);
+
 
 	$.post(
 	'/pagamento/'+ id_usuario,
@@ -121,6 +121,7 @@ function atualizalistaPagamentoUsuario(id_usuario) {
 		html = "";
 		result = data[0];
 		nomeUsuario = data[1];
+		data_filiacao = data[2]; // YYYY/MM/DD
 		if (result) {
 			html = "<table class = 'table table-striped table-hover'> " +
 				"<thead>" +
@@ -153,7 +154,7 @@ function atualizalistaPagamentoUsuario(id_usuario) {
 			html = "Sem Registros.";
 		}
 
-		$("#tabela_pagamentos_nome_usuario").html(nomeUsuario);
+		$("#tabela_pagamentos_nome_usuario").html(nomeUsuario + " -- Data Filiacao: " + data_filiacao);
 		$("#tabela_pagamentos_usuario").html(html);
 
 	}, "json");

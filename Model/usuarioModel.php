@@ -43,9 +43,9 @@ class usuarioModel {
 					$this->dbname.$this->table
 				ORDER BY
 					display_name
+				limit 0,2
 		";
-//				limit 0,2
-		$result = mysqli_query($this->connection, $query);
+		$result = mysqli_query($this->connection,$query);
 		return $result->fetch_all(MYSQLI_ASSOC);
 	}
 
@@ -59,10 +59,10 @@ class usuarioModel {
 				WHERE
 					user_id = $userId
 					AND 
-					meta_key IN ('birth_date','paintTeam','role','codigo_filiacao','data_filiacao')
+					meta_key IN ('birth_date','paintTeam','role','codigo_filiacao','data_filiacao','rg_numero')
 		";
-		//        var_dump($query);
-		$result = mysqli_query($this->connection, $query);
+		//var_dump($query);
+		$result = mysqli_query($this->connection,$query);
 		return $result->fetch_all(MYSQLI_ASSOC);
 	}
 
@@ -107,9 +107,9 @@ class usuarioModel {
 		}
 	}
 
-	function setPagamento($id, $status = 0) {
+	function setPagamento($id,$status = 0) {
 		$query = "UPDATE $this->dbname.$this->table SET carteirinha = '$status' WHERE id = '$id'";
-		$result = mysqli_query($this->connection, $query);
+		$result = mysqli_query($this->connection,$query);
 		return $result;
 	}
 

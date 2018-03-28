@@ -2,6 +2,7 @@
 include('./Model/usuarioModel.php');
 $usuariosModel = new usuarioModel();
 $usuarios = $usuariosModel->getAllUsers();
+$hoje = date("Y-m-d");
 
 //		foreach ($usuarios as $u) {
 //
@@ -30,6 +31,7 @@ $usuarios = $usuariosModel->getAllUsers();
 //                }
 //                print_r($x);
 //                die();
+//
 ?>
 
 <h1>Users CRUD - Usuarios Confirmados</h1>
@@ -48,6 +50,7 @@ $usuarios = $usuariosModel->getAllUsers();
 						<th>Email</th>
 						<th>Filiação</th>
 						<th>Data Filiação</th>
+						<th>RG</th>
 						<th>Data Nasc.</th>
 						<th>Equipe</th>
 						<th>Cart.</th>
@@ -55,7 +58,7 @@ $usuarios = $usuariosModel->getAllUsers();
 				</thead>
 				<tbody>
 <?php
-                        $i = 1;
+	$i = 1;
 	foreach ($usuarios as $u) {
 
 		$id_usuario = $u['ID'];
@@ -71,40 +74,52 @@ $usuarios = $usuariosModel->getAllUsers();
 			$tipo_usuario = "";
 		}
 
+		$data_nasc = "";
 		if (array_key_exists("birth_date", $u)) {
 			$data_nasc = utils::inverteData($u['birth_date']);
 		} else {
 			$data_nasc = "";
 		}
 
+		$rg = "";
+		if (array_key_exists("rg_numero", $u)) {
+			$rg = $u['rg_numero'];
+		} else {
+			$rg = "";
+		}
+
+		$paintTeam = "";
 		if (array_key_exists("paintTeam", $u)) {
 			$paintTeam = strtoupper($u['paintTeam']);
-                        } else {
-                            $paintTeam = "";
-                        }
+		} else {
+			$paintTeam = "";
+		}
 
-                        if (array_key_exists("codigo_filiacao", $u)) {
+		$codigo_filiacao = "";
+		if (array_key_exists("codigo_filiacao", $u)) {
 			$codigo_filiacao = $u['codigo_filiacao'];
-			if(preg_match('/^F/', $codigo_filiacao)) {
+			if (preg_match('/^F/', $codigo_filiacao)) {
 				$codigo_filiacao = $u['codigo_filiacao'];
 			} else {
 				$codigo_filiacao = intval($u['codigo_filiacao']);
 			}
-                        } else {
+		} else {
 			$codigo_filiacao = "";
-                        }
+		}
 
-                        if (array_key_exists("data_filiacao", $u)) {
-                            $data_filiacao = utils::traduzData(utils::inverteData($u['data_filiacao']));
-                        } else {
-                            $data_filiacao = "";
-                        }
+		$data_filiacao = "";
+		if (array_key_exists("data_filiacao", $u)) {
+			$data_filiacao = utils::traduzData(utils::inverteData($u['data_filiacao']));
+		} else {
+			$data_filiacao = "";
+		}
 
-                        if($u['carteirinha'] == 0) {
-                            $carteirinha = "Atual";
-                        } else {
-                            $carteirinha = "Nao Atual";
-                        }
+		$carteirinha = "";
+		if ($u['carteirinha'] == 0) {
+			$carteirinha = "Atual";
+		} else {
+			$carteirinha = "Nao Atual";
+		}
 
 		$display_name = ucwords(strtolower($u['display_name']));
 		$email = $u['user_email'];
@@ -117,11 +132,12 @@ $usuarios = $usuariosModel->getAllUsers();
 						<td><?php echo $email; ?></td>
 						<td><?php echo $codigo_filiacao; ?></td>
 						<td><?php echo $data_filiacao; ?></td>
+						<td><?php echo $rg; ?></td>
 						<td><?php echo $data_nasc; ?></td>
 						<td><?php echo $paintTeam; ?></td>
 						<td><?php echo $carteirinha; ?></td>
 					</tr>
-<?php                        
+<?php
 		$i++;
 	}
 ?>
@@ -130,7 +146,7 @@ $usuarios = $usuariosModel->getAllUsers();
 
 			<div class='span2'>
 				<div class='row-fluid'>
-					<input id='usuario_pagamentos' class='btn btn-mini btn-success span12' type='button' name='usuario_pagamentos' value='Pagamentos' onclick='pagamentosUsuario();' />
+					<input id='usuario_pagamentos' class='btn btn-mini btn-success span12' type='button' name='usuario_pagamentos' value='Pagamentos' onclick='pagamentosUsuario("<?php echo $hoje;?>");' />
 				</div>
 			</div>
 		</div>
@@ -147,13 +163,42 @@ $usuarios = $usuariosModel->getAllUsers();
 					<h4 class='modal-title' id='tabela_pagamentos_nome_usuario'></h4>
 				</div>
 				<div class='modal-body'>
-					<div id='tabela_pagamentos_adicionar' >
-						Data do Pagamento: <input type="date" id='tabela_pagamentos_adicionar_data' name="dataPag"/>
-						Valor: <input type="text" id='tabela_pagamentos_adicionar_valor' name="valorPag"/>
-						<button type='button' class='btn btn-primary' onclick="inserirPagamentoUsuario();">Adicionar</button>
-						<!--<input type="submit" value="Adicionar" />-->
+					<a href="#tabela_pagamentos_adicionar" class="" data-toggle="collapse">Novo Pagamento</a>
+					<div id='tabela_pagamentos_adicionar' class="collapse in" >
+						<div class="container col-lg-12">
+							<div class="row">
+								<div class="col-lg-3">
+									Valor: 
+									<select class="form-control" id='tabela_pagamentos_adicionar_valor' name="valorPag"/>
+										<option value='120' > R$ 120,00 </option>
+										<option value='130'> R$ 130,00 </option>
+									</select>
+								</div>
+								<div class="col-lg-3">
+									Tipo Pagamento: 
+									<select class="form-control" id='tabela_pagamentos_adicionar_tipo_pagamento' name="valorPag"/>
+										<option value='deposito' > Deposito </option>
+										<option value='pagseguro'> Pagseguro </option>
+									</select>
+								</div>
+								<div class="col-lg-3">
+									Data do Pagamento: <input type="date" id='tabela_pagamentos_adicionar_data' name="dataPag"/>
+								</div>
+								<div class="col-lg-3">
+									Mes de Referencia: <input type="date" id='tabela_pagamentos_adicionar_mes_ano_ref' name="dataReferencia"/>
+								</div>
+							</div>
+							<div class="row"> &nbsp;
+							</div>
+							
+							<div class="row">
+							</div>
+							<div class="row">
+								<button type='button' class='btn btn-primary' onclick="inserirPagamentoUsuario();">Adicionar</button>
+							</div>
+							<hr>
+						</div>
 					</div>
-					<hr>
 					<div id='tabela_pagamentos_usuario' > </div>
 				</div>
 <!--				<div class='modal-footer'>
