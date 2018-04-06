@@ -10,6 +10,7 @@ require_once 'usuarioModel.php';
 class pagamentoModel {
 
 	public $table = 'historico_pagamento';
+	public $table_mensalidade = 'mensalidade';
 	private $dbname = 'fepes861_fepespa';
 	private $data_pagamento;
 	private $valor;
@@ -89,15 +90,41 @@ class pagamentoModel {
 	}
 
 	function cancelarPagamento($pagamento_id) {
-		$query = "DELETE FROM $this->dbname.$this->table WHERE id = $pagamento_id";
+		
+		$query = "DELETE FROM $this->dbname.$this->table_mensalidade WHERE id_hist_pag = $pagamento_id";
 		$result = mysqli_query($this->connection, $query);
+		if($result) {
+			$query = "DELETE FROM $this->dbname.$this->table WHERE id = $pagamento_id";
+			$result = mysqli_query($this->connection, $query);
+		}
 		return $result;
 	}
 
-	function inserirPagamento($user_id, $data_pag, $valor, $data_val) {
-		$query = "INSERT INTO $this->dbname.$this->table (data_pagamento,valor,id_user,data_validade) VALUES ('$data_pag',$valor,$user_id, $data_val);";
+	function inserirPagamento($userID, $dataPag, $valorPag, $tipoPag, $dataRef) {
+		$query = "INSERT INTO $this->dbname.$this->table (data_pagamento,valor,id_user,mes_ano_referencia,tipo_pagamento) VALUES ('$dataPag',$valorPag, $userID, '$dataRef', '$tipoPag');";
 		//var_dump($query); die();
 		$result = mysqli_query($this->connection, $query);
+
+
+		if($result) {
+			$dataR = utils::converteData($dataRef);
+			$hist_pag_id = mysqli_insert_id($this->connection);
+			unset($query);
+
+			$query = "INSERT INTO $this->dbname.$this->table_mensalidade (id_hist_pag,mes_ano) VALUES ";
+
+			for($i = 0; $i < 12; $i++) {
+				if($i == 0)
+					continue;
+
+				$mes_ano = utils::inverteData(utils::converteData(utils::somarData($dataR, $i, 'mes')));
+				$query .= "($hist_pag_id, '$mes_ano')";
+
+				if($i < 11)
+					$query .= ",";
+			}
+			$result = mysqli_query($this->connection, $query);
+		}
 
 		return $result;
 	}

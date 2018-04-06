@@ -1,34 +1,13 @@
 <?php
 include_once 'Model/pagamentoModel.php';
-$usrID = $args[0];
+$userID = $args[0];
 $valorPag = $args[1];
-$dataP = $args[2] . "/" . $args[3] . "/" . $args[4];
-$dataPag = utils::converteData($dataP);
-//var_dump($args);
-//var_dump($dataPag);
-//die();
-$pagObj = new pagamentoModel($usrID);
-$data_filiacao_usuario = ($pagObj->getDataFiliacao());
-$ultima_data_validade = ($pagObj->getUltimaDataValidade());
+$tipoPag = $args[2];
+$dataPag = $args[3]; // YYYY-MM-DD
+$dataRef = $args[4]; // YYYY-MM-DD
 
-$a = utils::inverteData($data_filiacao_usuario);
-echo "a== " . $a;
-var_dump($data_filiacao_usuario);
-var_dump($nova_validade);
-if($ultima_data_validade) {
-	$nova_validade = utils::somarData(utils::inverteData($ultima_data_validade), 1, 'ano');
-} else {
-	$nova_validade = utils::somarData($a, 1, 'ano');
-}
+$pagObj = new pagamentoModel($userID);
 
-
-echo "nova == $nova_validade";
-
-die();
-
-$bool = $pagObj->inserirPagamento($usrID,$dataPag,$valorPag);
-
-
-
+$bool = $pagObj->inserirPagamento($userID, $dataPag, $valorPag, $tipoPag, $dataRef);
 
 die(json_encode($bool));

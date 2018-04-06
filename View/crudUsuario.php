@@ -34,7 +34,6 @@ $hoje = date("Y-m-d");
 //
 ?>
 
-<h1>Users CRUD - Usuarios Confirmados</h1>
 <div class="container">
 	<div class='row-fluid'>
 		<div class='span2'>
@@ -176,7 +175,7 @@ $hoje = date("Y-m-d");
 								</div>
 								<div class="col-lg-3">
 									Tipo Pagamento: 
-									<select class="form-control" id='tabela_pagamentos_adicionar_tipo_pagamento' name="valorPag"/>
+									<select class="form-control" id='tabela_pagamentos_adicionar_tipo_pagamento' name="tipoPag"/>
 										<option value='deposito' > Deposito </option>
 										<option value='pagseguro'> Pagseguro </option>
 									</select>

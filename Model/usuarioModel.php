@@ -1,11 +1,13 @@
 <?php
+
 include('./Controller/mysqlConnection.php');
+
 class usuarioModel {
 
 	private $connection = null;
 	private $table = 'wp_users';
 	private $table_meta = 'wp_usermeta';
-	private $table_historico = 'wp_usermeta';
+	private $table_historico = 'historico_pagamento';
 	private $dbname = 'fepes861_fepespa';
 
 	public function __construct() {
@@ -43,9 +45,9 @@ class usuarioModel {
 					$this->dbname.$this->table
 				ORDER BY
 					display_name
-				limit 0,2
+				limit 0,10
 		";
-		$result = mysqli_query($this->connection,$query);
+		$result = mysqli_query($this->connection, $query);
 		return $result->fetch_all(MYSQLI_ASSOC);
 	}
 
@@ -62,7 +64,7 @@ class usuarioModel {
 					meta_key IN ('birth_date','paintTeam','role','codigo_filiacao','data_filiacao','rg_numero')
 		";
 		//var_dump($query);
-		$result = mysqli_query($this->connection,$query);
+		$result = mysqli_query($this->connection, $query);
 		return $result->fetch_all(MYSQLI_ASSOC);
 	}
 
@@ -80,14 +82,14 @@ class usuarioModel {
 		//        var_dump($query);
 		$result = mysqli_query($this->connection, $query);
 		$arr = $result->fetch_all(MYSQLI_ASSOC);
-		
+
 		return $arr[0]['meta_value'];
 	}
 
 	function getUltimaDataValidadePagamento($userId) {
 		$query = "
 				SELECT
-					data_validade
+					mes_ano_referencia
 				FROM
 					$this->dbname.$this->table_historico
 				WHERE
@@ -99,17 +101,17 @@ class usuarioModel {
 		";
 		//        var_dump($query);
 		$result = mysqli_query($this->connection, $query);
-		if($result) {
+		if ($result) {
 			$arr = $result->fetch_all(MYSQLI_ASSOC);
-			return $arr[0]['meta_value'];
+			return $arr[0]['mes_ano_referencia'];
 		} else {
 			return $result;
 		}
 	}
 
-	function setPagamento($id,$status = 0) {
+	function setPagamento($id, $status = 0) {
 		$query = "UPDATE $this->dbname.$this->table SET carteirinha = '$status' WHERE id = '$id'";
-		$result = mysqli_query($this->connection,$query);
+		$result = mysqli_query($this->connection, $query);
 		return $result;
 	}
 

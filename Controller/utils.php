@@ -179,7 +179,7 @@ class utils {
 			$tipo = "year";
 		}
 
-		$data = converteData($data);
+		$data = utils::converteData($data);
 
 		return date('d/m/Y', strtotime("+$qtd  $tipo", strtotime($data)));
 	}
@@ -209,7 +209,7 @@ class utils {
 			$tipo = "year";
 		}
 
-		$data = converteData($data);
+		$data = utils::converteData($data);
 
 		return date('d/m/Y', strtotime("-$qtd  $tipo", strtotime($data)));
 	}
